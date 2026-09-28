@@ -1,1512 +1,646 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Muhammad Zubair | Lead GenAI Engineer</title>
-  <meta name="description"
-    content="Muhammad Zubair | Lead GenAI Engineer at SortUp. Production AI agents, RAG pipelines, MCP tooling. Build, collaborate, or brainstorm - let's talk." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-    rel="stylesheet" />
-  <style>
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --bg: #07090F;
-      --s1: #0C1020;
-      --s2: #111827;
-      --s3: #161E30;
-      --bdr: rgba(255, 255, 255, 0.07);
-      --bdr-h: rgba(0, 198, 240, 0.35);
-      --cyan: #00C6F0;
-      --cyan-dim: rgba(0, 198, 240, 0.12);
-      --violet: #8B6FF5;
-      --vlt-dim: rgba(139, 111, 245, 0.12);
-      --green: #34D399;
-      --txt: #EEF3FF;
-      --txt2: #8A9BBF;
-      --txt3: #4A5A78;
-      --r: 10px;
-      --mono: 'JetBrains Mono', monospace;
-      --sans: 'Space Grotesk', system-ui, sans-serif;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      font-size: 16px;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--txt2);
-      font-family: var(--sans);
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    /* ═══ NAV ═══ */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 200;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 2.5rem;
-      height: 64px;
-      background: rgba(7, 9, 15, 0.88);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--bdr);
-    }
-
-    .nav-logo {
-      font-family: var(--mono);
-      font-size: .8rem;
-      color: var(--cyan);
-      letter-spacing: .06em;
-    }
-
-    .nav-center {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .nav-center a {
-      font-size: .875rem;
-      font-weight: 500;
-      color: var(--txt3);
-      transition: color .2s;
-    }
-
-    .nav-center a:hover {
-      color: var(--txt);
-    }
-
-    .nav-book {
-      display: inline-flex;
-      align-items: center;
-      gap: .45rem;
-      padding: .5rem 1.15rem;
-      background: var(--cyan);
-      color: #06090F;
-      font-size: .82rem;
-      font-weight: 700;
-      border-radius: 8px;
-      transition: opacity .18s, transform .18s;
-      white-space: nowrap;
-    }
-
-    .nav-book:hover {
-      opacity: .85;
-      transform: translateY(-1px);
-    }
-
-    .nav-book svg {
-      width: 14px;
-      height: 14px;
-      flex-shrink: 0;
-    }
-
-    /* ═══ HERO ═══ */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 9rem 2.5rem 5rem;
-      position: relative;
-      background:
-        radial-gradient(ellipse 70% 55% at 75% 20%, rgba(139, 111, 245, 0.09) 0%, transparent 65%),
-        radial-gradient(ellipse 60% 50% at 20% 80%, rgba(0, 198, 240, 0.07) 0%, transparent 60%),
-        var(--bg);
-    }
-
-    /* Dot grid */
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-      background-size: 28px 28px;
-      pointer-events: none;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
-    }
-
-    .hero-inner {
-      max-width: 780px;
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: .6rem;
-      font-family: var(--mono);
-      font-size: .75rem;
-      color: var(--cyan);
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      margin-bottom: 1.8rem;
-      padding: .4rem .9rem;
-      border: 1px solid rgba(0, 198, 240, .2);
-      border-radius: 999px;
-      background: rgba(0, 198, 240, .05);
-    }
-
-    .hero-eyebrow .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--green);
-      animation: pulse 2.2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-
-      0%,
-      100% {
-        opacity: 1;
-      }
-
-      50% {
-        opacity: .3;
-      }
-    }
-
-    .hero-name {
-      font-size: clamp(3rem, 6.5vw, 5.5rem);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -.03em;
-      color: var(--txt);
-      margin-bottom: 1.2rem;
-    }
-
-    .hero-role {
-      font-size: clamp(1.1rem, 2.2vw, 1.45rem);
-      font-weight: 400;
-      color: var(--txt3);
-      margin-bottom: 1.8rem;
-      min-height: 2.1rem;
-    }
-
-    .hero-role .cursor {
-      color: var(--cyan);
-      font-weight: 600;
-      border-right: 2px solid var(--cyan);
-      padding-right: 3px;
-      animation: blink .8s step-end infinite;
-    }
-
-    @keyframes blink {
-      50% {
-        border-color: transparent;
-      }
-    }
-
-    .hero-desc {
-      font-size: 1.05rem;
-      color: var(--txt2);
-      max-width: 620px;
-      line-height: 1.8;
-      margin-bottom: 2.5rem;
-    }
-
-    .hero-desc strong {
-      color: var(--txt);
-      font-weight: 500;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .85rem;
-      align-items: center;
-    }
-
-    .btn-book {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      padding: .8rem 1.6rem;
-      background: var(--cyan);
-      color: #06090F;
-      font-family: var(--sans);
-      font-size: .9rem;
-      font-weight: 700;
-      border-radius: var(--r);
-      transition: opacity .18s, transform .18s;
-    }
-
-    .btn-book:hover {
-      opacity: .85;
-      transform: translateY(-1px);
-    }
-
-    .btn-book svg {
-      width: 15px;
-      height: 15px;
-    }
-
-    .btn-outline {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      padding: .8rem 1.5rem;
-      background: transparent;
-      color: var(--txt);
-      font-family: var(--sans);
-      font-size: .9rem;
-      font-weight: 500;
-      border: 1px solid var(--bdr);
-      border-radius: var(--r);
-      transition: border-color .2s, color .2s, transform .2s;
-    }
-
-    .btn-outline:hover {
-      border-color: var(--bdr-h);
-      color: var(--cyan);
-      transform: translateY(-1px);
-    }
-
-    .btn-outline svg {
-      width: 15px;
-      height: 15px;
-    }
-
-    /* ═══ STATS ═══ */
-    .stats {
-      padding: 0 2.5rem 4rem;
-      max-width: 1060px;
-      margin: 0 auto;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      border: 1px solid var(--bdr);
-      border-radius: var(--r);
-      overflow: hidden;
-      background: var(--bdr);
-    }
-
-    .stat {
-      background: var(--s1);
-      padding: 1.8rem 1.5rem;
-      text-align: center;
-    }
-
-    .stat-n {
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--txt);
-      letter-spacing: -.03em;
-      line-height: 1;
-    }
-
-    .stat-n span {
-      color: var(--cyan);
-    }
-
-    .stat-l {
-      font-family: var(--mono);
-      font-size: .68rem;
-      letter-spacing: .08em;
-      color: var(--txt3);
-      text-transform: uppercase;
-      margin-top: .45rem;
-    }
-
-    /* ═══ SECTION BASE ═══ */
-    .section {
-      padding: 6rem 2.5rem;
-    }
-
-    .section.alt {
-      background: var(--s1);
-    }
-
-    .wrap {
-      max-width: 1060px;
-      margin: 0 auto;
-    }
-
-    .s-label {
-      font-family: var(--mono);
-      font-size: .7rem;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--violet);
-      margin-bottom: .6rem;
-    }
-
-    .s-title {
-      font-size: clamp(1.7rem, 3vw, 2.3rem);
-      font-weight: 700;
-      color: var(--txt);
-      letter-spacing: -.025em;
-      line-height: 1.2;
-      margin-bottom: .75rem;
-    }
-
-    .s-sub {
-      font-size: 1rem;
-      color: var(--txt2);
-      max-width: 560px;
-      line-height: 1.75;
-    }
-
-    .rule {
-      height: 1px;
-      background: var(--bdr);
-      margin: 2.5rem 0;
-    }
-
-    /* ═══ ABOUT ═══ */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 4rem;
-      align-items: start;
-    }
-
-    .about-bio p {
-      font-size: 1rem;
-      color: var(--txt2);
-      line-height: 1.85;
-      margin-bottom: 1.1rem;
-    }
-
-    .about-bio p strong {
-      color: var(--txt);
-      font-weight: 500;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      padding: .5rem 1rem;
-      background: var(--s3);
-      border: 1px solid var(--bdr);
-      border-radius: var(--r);
-      font-size: .82rem;
-      color: var(--txt2);
-      margin-top: 1rem;
-    }
-
-    .badge-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--green);
-    }
-
-    .stack-section {}
-
-    .stack-group {
-      margin-bottom: 1.6rem;
-    }
-
-    .stack-group-label {
-      font-family: var(--mono);
-      font-size: .68rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--txt3);
-      margin-bottom: .7rem;
-    }
-
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .4rem;
-    }
-
-    .tag {
-      font-family: var(--mono);
-      font-size: .7rem;
-      padding: .28rem .7rem;
-      border-radius: 6px;
-      border: 1px solid var(--bdr);
-      background: var(--s2);
-      color: var(--txt2);
-      transition: border-color .2s, color .2s;
-    }
-
-    .tag:hover {
-      border-color: var(--bdr-h);
-      color: var(--txt);
-    }
-
-    .tag.c {
-      border-color: rgba(0, 198, 240, .2);
-      color: var(--cyan);
-      background: var(--cyan-dim);
-    }
-
-    .tag.v {
-      border-color: rgba(139, 111, 245, .2);
-      color: var(--violet);
-      background: var(--vlt-dim);
-    }
-
-    /* ═══ PROJECTS ═══ */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .card {
-      background: var(--s1);
-      border: 1px solid var(--bdr);
-      border-radius: var(--r);
-      padding: 1.6rem;
-      display: flex;
-      flex-direction: column;
-      transition: border-color .25s, background .25s, transform .25s;
-    }
-
-    .card:hover {
-      border-color: var(--bdr-h);
-      background: var(--s2);
-      transform: translateY(-2px);
-    }
-
-    .card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 1.1rem;
-      gap: .5rem;
-    }
-
-    .card-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 9px;
-      background: var(--s3);
-      border: 1px solid var(--bdr);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
-
-    .card-live {
-      font-family: var(--mono);
-      font-size: .68rem;
-      color: var(--txt3);
-      padding: .28rem .65rem;
-      border: 1px solid var(--bdr);
-      border-radius: 6px;
-      transition: color .2s, border-color .2s;
-      white-space: nowrap;
-    }
-
-    .card-live:hover {
-      color: var(--cyan);
-      border-color: var(--bdr-h);
-    }
-
-    .card-live.dead {
-      opacity: .3;
-      pointer-events: none;
-    }
-
-    .card-name {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--txt);
-      margin-bottom: .45rem;
-      letter-spacing: -.01em;
-    }
-
-    .card-desc {
-      font-size: .875rem;
-      color: var(--txt2);
-      line-height: 1.72;
-      flex: 1;
-      margin-bottom: 1.1rem;
-    }
-
-    .card-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .35rem;
-      margin-top: auto;
-    }
-
-    .card-tag {
-      font-family: var(--mono);
-      font-size: .62rem;
-      color: var(--txt3);
-      padding: .2rem .5rem;
-      border-radius: 5px;
-      border: 1px solid var(--bdr);
-      background: var(--bg);
-    }
-
-    /* ═══ CONTACT / CTA ═══ */
-    .cta-box {
-      background: var(--s1);
-      border: 1px solid var(--bdr);
-      border-radius: 16px;
-      padding: 3.5rem 2.5rem;
-      text-align: center;
-      max-width: 680px;
-      margin: 0 auto;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-box::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 10%;
-      right: 10%;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--cyan), var(--violet), transparent);
-    }
-
-    .cta-box h2 {
-      font-size: clamp(1.6rem, 3vw, 2.1rem);
-      font-weight: 700;
-      color: var(--txt);
-      letter-spacing: -.02em;
-      margin-bottom: .75rem;
-    }
-
-    .cta-box p {
-      font-size: .975rem;
-      color: var(--txt2);
-      line-height: 1.75;
-      max-width: 480px;
-      margin: 0 auto 2rem;
-    }
-
-    .cta-links {
-      display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: .85rem;
-    }
-
-    .cta-links>a {
-      grid-column: span 2;
-      justify-content: center;
-      min-height: 3.1rem;
-    }
-
-    .cta-links>a:nth-last-child(2) {
-      grid-column: 2 / span 2;
-    }
-
-    .cta-links>a:last-child {
-      grid-column: 4 / span 2;
-    }
-
-    .cta-link {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      padding: .7rem 1.35rem;
-      background: var(--bg);
-      border: 1px solid var(--bdr);
-      border-radius: var(--r);
-      color: var(--txt2);
-      font-size: .85rem;
-      font-weight: 500;
-      transition: border-color .2s, color .2s, transform .2s;
-    }
-
-    .cta-link:hover {
-      border-color: var(--bdr-h);
-      color: var(--cyan);
-      transform: translateY(-2px);
-    }
-
-    .cta-link svg {
-      width: 15px;
-      height: 15px;
-      flex-shrink: 0;
-    }
-
-    /* ═══ FOOTER ═══ */
-    footer {
-      text-align: center;
-      padding: 2rem 1.5rem;
-      border-top: 1px solid var(--bdr);
-      font-family: var(--mono);
-      font-size: .72rem;
-      color: var(--txt3);
-    }
-
-
-
-    /* ═══ FILTERS, REVEALS & TOAST ═══ */
-    .project-filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      margin-bottom: 2rem;
-    }
-
-    .filter-btn {
-      background: var(--s2);
-      border: 1px solid var(--bdr);
-      color: var(--txt3);
-      padding: 0.5rem 1rem;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-family: var(--sans);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .filter-btn:hover {
-      border-color: var(--bdr-h);
-      color: var(--txt);
-    }
-
-    .filter-btn.active {
-      background: var(--cyan-dim);
-      border-color: rgba(0, 198, 240, 0.3);
-      color: var(--cyan);
-    }
-
-    .card.hidden {
-      display: none;
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: var(--cyan);
-      color: #06090F;
-      padding: 0.6rem 1.2rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      font-family: var(--sans);
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      z-index: 9999;
-      box-shadow: 0 4px 12px rgba(0, 198, 240, 0.3);
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    /* ═══ NEW INTERACTIVE FEATURES ═══ */
-    #hero-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    .hero::before {
-      z-index: 0;
-    }
-
-    .card,
-    .stat,
-    .cta-box {
-      position: relative;
-    }
-
-    .card::before,
-    .stat::before,
-    .cta-box::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      padding: 1px;
-      background: radial-gradient(400px circle at var(--x, 0) var(--y, 0), rgba(0, 198, 240, 0.6), transparent 40%);
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.3s;
-      z-index: 2;
-    }
-
-    .card:hover::before,
-    .stat:hover::before,
-    .cta-box:hover::before {
-      opacity: 1;
-    }
-
-    .card::after,
-    .stat::after,
-    .cta-box::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      background: radial-gradient(400px circle at var(--x, 0) var(--y, 0), rgba(0, 198, 240, 0.05), transparent 40%);
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.3s;
-      z-index: 1;
-    }
-
-    .card:hover::after,
-    .stat:hover::after,
-    .cta-box:hover::after {
-      opacity: 1;
-    }
-
-    /* Modify existing transitions to not clash */
-    .card {
-      transition: border-color .25s, background .25s, transform .25s;
-    }
-
-    /* Ensure content stays above the glowing pseudo-elements */
-    .card>*,
-    .stat>*,
-    .cta-box>* {
-      position: relative;
-      z-index: 3;
-    }
-
-
-    /* ═══ RESPONSIVE ═══ */
-    @media (max-width: 768px) {
-      nav {
-        padding: 0 1.25rem;
-      }
-
-      .nav-center {
-        display: none;
-      }
-
-      .hero {
-        padding: 7.5rem 1.25rem 4rem;
-      }
-
-      .stats {
-        padding: 0 1.25rem 3rem;
-      }
-
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .section {
-        padding: 4rem 1.25rem;
-      }
-
-      .about-grid {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-      }
-
-      .cta-box {
-        padding: 2.5rem 1.5rem;
-      }
-
-      .cta-links {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .cta-links>a,
-      .cta-links>a:nth-last-child(2),
-      .cta-links>a:last-child {
-        grid-column: auto;
-      }
-
-      .cta-links>a:first-child,
-      .cta-links>a:last-child {
-        grid-column: 1 / -1;
-      }
-    }
-
-    @media (max-width: 460px) {
-      .cta-links {
-        grid-template-columns: 1fr;
-      }
-
-      .cta-links>a:first-child,
-      .cta-links>a:last-child {
-        grid-column: auto;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-
-      .hero-role .cursor,
-      .hero-eyebrow .dot {
-        animation: none;
-      }
-
-      .card,
-      .btn-book,
-      .btn-outline,
-      .cta-link {
-        transition: none;
-      }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Muhammad Zubair | Lead GenAI Engineer</title>
+<meta name="description" content="Muhammad Zubair, Lead GenAI Engineer at SortUp. I build AI agents, RAG pipelines, MCP tooling and document intelligence systems that run in production.">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://z4forzubair.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://z4forzubair.github.io/">
+<meta property="og:title" content="Muhammad Zubair | Lead GenAI Engineer">
+<meta property="og:description" content="I build AI systems that run in production: agents, RAG pipelines, MCP tooling and document intelligence.">
+<meta property="og:image" content="https://z4forzubair.github.io/zubair.jpg">
+<meta property="og:image:alt" content="Muhammad Zubair">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@ZubairThinksAI">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23ffe45e'/%3E%3Cpath d='M19 19h26L19 45h26' fill='none' stroke='%23000' stroke-width='6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..700&display=swap">
+<style>
+  :root {
+    --paper: #ffffff;
+    --ink: #000000;
+    --graphite: #5e5e5e;
+    --hairline: #d6d6d6;
+    --mark: #ffe45e;
+    --mark-deep: #ffd21f;
+    --gap: clamp(1rem, 2vw, 1.75rem);
+    --edge: clamp(1.25rem, 4.5vw, 3.5rem);
+    --max: 76rem;
+    color-scheme: light;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    overflow-x: clip;
+  }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Schibsted Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, p, ol, ul, dl, dd { margin: 0; }
+  p, dd { text-wrap: pretty; }
+  ol, ul { padding: 0; list-style: none; }
+  a { color: inherit; }
+  ::selection { background: var(--mark); color: var(--ink); }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+
+  /* Page grid: labels sit in the left four columns, content in the right eight */
+  .wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--edge); }
+
+  @media (min-width: 860px) {
+    .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); }
+    .g-side { grid-column: 1 / 5; padding-right: 2rem; }
+    .g-main { grid-column: 5 / 13; }
+  }
+
+  /* Highlighter: the one accent. It marks citations, targets and hovered links. */
+  .link,
+  .claim,
+  .ref-title a,
+  .ref-title span,
+  .site-nav a {
+    background-image: linear-gradient(var(--mark), var(--mark));
+    background-repeat: no-repeat;
+    background-position: 0 88%;
+    background-size: 0 62%;
+    transition: background-size .3s ease;
+  }
+
+  .link {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: .22em;
+  }
+
+  @media (hover: hover) {
+    .link:hover,
+    .site-nav a:hover,
+    .ref-title a:hover { background-size: 100% 62%; }
+  }
+
+  /* Header */
+  .bar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1.5rem;
+  }
+
+  .brand { font-size: 1.125rem; font-weight: 600; letter-spacing: -.01em; }
+  .brand a { text-decoration: none; }
+
+  .site-nav { display: flex; align-items: baseline; gap: 1.5rem; font-size: 1rem; }
+  .site-nav a { color: var(--graphite); text-decoration: none; }
+  .site-nav a:hover { color: var(--ink); }
+
+  .site-nav .nav-cta {
+    margin-inline: -.2em;
+    padding-inline: .2em;
+    color: var(--ink);
+    font-weight: 600;
+    background-size: 100% 62%;
+  }
+
+  @media (hover: hover) {
+    .site-nav .nav-cta:hover { background-image: linear-gradient(var(--mark-deep), var(--mark-deep)); }
+  }
+
+  @media (min-width: 860px) {
+    .bar { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); }
+    .brand { grid-column: 1 / 5; }
+    .site-nav { grid-column: 5 / 13; }
+    .site-nav .nav-cta { margin-left: auto; }
+  }
+
+  @media (max-width: 639px) {
+    .site-nav a:not(.nav-cta) { display: none; }
+  }
+
+  /* Hero */
+  .hero { padding-block: clamp(3rem, 7vw, 6.5rem) clamp(5rem, 11vw, 9rem); }
+
+  .lede {
+    max-width: 18.5em;
+    font-size: clamp(1.75rem, 1.05rem + 3.1vw, 3.75rem);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -.024em;
+    text-wrap: pretty;
+  }
+
+  .hero-meta { margin-top: clamp(2.25rem, 4vw, 3.25rem); }
+  .hero-meta > p { max-width: 34em; color: var(--graphite); }
+
+  /* Citations: small numbered marks that point to a project in the list */
+  .cites {
+    font-size: max(.8125rem, .34em);
+    line-height: 0;
+    vertical-align: 1.05em;
+    white-space: nowrap;
+  }
+
+  .prose .cites { vertical-align: .4em; }
+
+  /* Inline, not inline-block: a letter followed by a digit is never a line break,
+     so a mark always stays on the same line as the word it cites */
+  .cites a {
+    --tip-drop: .95em;
+    position: relative;
+    margin-left: .2em;
+    padding: .1em .36em .04em;
+    border-radius: .25em;
+    background: var(--mark);
+    color: var(--ink);
+    font-weight: 600;
+    letter-spacing: 0;
+    text-decoration: none;
+    font-variant-numeric: tabular-nums;
+    transition: background-color .15s ease;
+  }
+
+  .prose .cites a { --tip-drop: .45em; }
+  .cites a + a { margin-left: .25em; }
+
+  /* Bigger tap area on touch screens, without changing how the mark looks */
+  @media (pointer: coarse) {
+    .cites a::before { content: ""; position: absolute; inset: -.55rem -.2rem; }
+  }
+
+  /* Source preview. It opens below the line so the highlighted claim stays readable,
+     and it is display: none until shown so it never widens the page on small screens. */
+  .cites a::after {
+    content: attr(data-source);
+    position: absolute;
+    top: calc(100% + var(--tip-drop) + .35rem);
+    left: 50%;
+    z-index: 5;
+    display: none;
+    transform: translateX(-50%);
+    padding: .4rem .6rem;
+    border-radius: 4px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: .875rem;
+    font-weight: 500;
+    font-variant-numeric: normal;
+    line-height: 1.3;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .cites a.tip-start::after { left: 0; transform: none; }
+  .cites a.tip-end::after { left: auto; right: 0; transform: none; }
+
+  .cites a:focus-visible { background: var(--mark-deep); }
+  .cites a:focus-visible::after { display: block; }
+  .claim:has(+ .cites a:focus-visible) { background-size: 100% 62%; }
+
+  @media (hover: hover) {
+    .cites a:hover { background: var(--mark-deep); }
+    .cites a:hover::after { display: block; }
+    .claim:has(+ .cites a:hover) { background-size: 100% 62%; }
+  }
+
+  /* Sections */
+  .section { padding-bottom: clamp(5rem, 12vw, 9rem); }
+
+  .g-side h2 { font-size: 1.125rem; font-weight: 600; line-height: 1.35; letter-spacing: -.005em; }
+  .note { max-width: 17em; margin-top: .6rem; font-size: 1rem; color: var(--graphite); }
+
+  @media (max-width: 859px) {
+    .g-side { margin-bottom: 1.75rem; }
+  }
+
+  @media (min-width: 860px) {
+    .g-side.sticky { position: sticky; top: 2rem; align-self: start; }
+  }
+
+  /* Work: a numbered list the citations point into */
+  .refs { display: grid; gap: clamp(2.25rem, 4vw, 3rem); }
+
+  .ref { position: relative; padding-left: 2.6rem; scroll-margin-top: 2.5rem; }
+
+  .ref-n {
+    position: absolute;
+    top: .15rem;
+    left: 0;
+    min-width: 1.8rem;
+    padding: .15rem .3rem;
+    border-radius: 3px;
+    color: var(--graphite);
+    font-size: .875rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    transition: background-color .3s ease .35s, color .3s ease .35s;
+  }
+
+  @media (min-width: 860px) {
+    .ref { padding-left: 0; }
+    .ref-n { left: -2.8rem; }
+  }
+
+  .ref-title { font-size: 1.3125rem; font-weight: 600; line-height: 1.25; letter-spacing: -.012em; }
+  .ref-title a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+  .ref-meta { margin-top: .25rem; font-size: 1rem; color: var(--graphite); }
+  .ref-desc { max-width: 36em; margin-top: .7rem; }
+  .ref-stack { margin-top: .5rem; font-size: .875rem; color: var(--graphite); }
+
+  .ref:target .ref-n { background: var(--mark); color: var(--ink); }
+
+  .ref:target .ref-title a,
+  .ref:target .ref-title span {
+    background-size: 100% 62%;
+    transition-duration: .6s;
+    transition-delay: .35s;
+  }
+
+  /* About */
+  .prose { max-width: 36em; }
+  .prose p + p { margin-top: 1em; }
+
+  /* Portrait: stays hidden until zubair.jpg actually loads, so a missing file leaves no gap */
+  .portrait { display: none; width: min(100%, 11rem); margin: 1.25rem 0 0; }
+  .portrait.has-photo { display: block; }
+
+  .portrait img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 30%;
+    border-radius: 4px;
+  }
+
+  @media (min-width: 860px) {
+    .portrait { width: min(100%, 15rem); margin-top: 1.5rem; }
+  }
+
+  /* Stack */
+  .stack { display: grid; gap: 1.1rem; }
+  .stack > div { display: grid; gap: .1rem; align-items: baseline; }
+  .stack dt { font-size: 1rem; color: var(--graphite); }
+
+  @media (min-width: 600px) {
+    .stack > div { grid-template-columns: 13rem minmax(0, 1fr); column-gap: var(--gap); }
+  }
+
+  @media (min-width: 860px) {
+    .stack > div { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+    .stack dt { grid-column: 1 / 4; }
+    .stack dd { grid-column: 4 / 9; }
+  }
+
+  /* Calls to action and contact */
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.4rem; margin-top: 1.9rem; }
+
+  .button {
+    display: inline-block;
+    padding: .85rem 1.2rem;
+    border-radius: 4px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: background-color .2s ease, color .2s ease;
+  }
+
+  @media (hover: hover) {
+    .button:hover { background: var(--mark); color: var(--ink); }
+  }
+
+  .or { font-size: 1rem; color: var(--graphite); }
+  .or .link { color: var(--ink); }
+
+  .contact-lede {
+    max-width: 19em;
+    font-size: clamp(1.5rem, 1.05rem + 1.7vw, 2.25rem);
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -.018em;
+    text-wrap: pretty;
+  }
+
+  .email { display: inline-flex; align-items: center; gap: .65rem; font-size: 1rem; }
+
+  .copy {
+    padding: .4rem .6rem;
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    background: var(--paper);
+    color: var(--ink);
+    font: inherit;
+    font-size: .875rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  @media (hover: hover) {
+    .copy:hover { border-color: var(--ink); }
+  }
+
+  .elsewhere { display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; margin-top: 2.25rem; font-size: 1rem; }
+
+  /* Footer */
+  .site-footer { padding-bottom: 2.5rem; font-size: .875rem; color: var(--graphite); }
+  .foot { display: flex; justify-content: space-between; gap: 1rem; }
+
+  @media (min-width: 860px) {
+    .foot { display: grid; gap: 0 var(--gap); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition-duration: 0s !important; transition-delay: 0s !important; }
+  }
+</style>
 </head>
-
 <body>
 
-  <!-- ═══ NAV ═══ -->
-  <nav>
-    <div class="nav-logo">mzubair.dev</div>
-    <ul class="nav-center">
-      <li><a href="#about">About</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <a href="https://calendly.com/zubair-r-sortup/30min" target="_blank" rel="noopener" class="nav-book">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-        <rect x="3" y="4" width="18" height="18" rx="2" />
-        <path d="M16 2v4M8 2v4M3 10h18" />
-      </svg>
-      Book a Call
-    </a>
-  </nav>
-
-  <!-- ═══ HERO ═══ -->
-  <div class="hero">
-    <canvas id="hero-canvas"></canvas>
-    <div class="hero-inner reveal visible">
-      <div class="hero-eyebrow">
-        <span class="dot"></span>
-        Open to build · collaborate · consult
-      </div>
-      <h1 class="hero-name">Muhammad<br>Zubair</h1>
-      <p class="hero-role">I build <span id="tw" class="cursor"></span></p>
-      <p class="hero-desc">
-        <strong>Lead GenAI Engineer at SortUp.</strong> I take AI products from zero to production:
-        agents, RAG pipelines, MCP tooling, document intelligence.
-        Whether you need someone to <strong>build your system, collaborate on architecture,</strong>
-        or <strong>help you think through a hard problem</strong>, let's talk.
-      </p>
-      <div class="hero-actions">
-        <a href="https://calendly.com/zubair-r-sortup/30min" target="_blank" rel="noopener" class="btn-book">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-            <rect x="3" y="4" width="18" height="18" rx="2" />
-            <path d="M16 2v4M8 2v4M3 10h18" />
-          </svg>
-          Book a Free Call
-        </a>
-        <a href="#projects" class="btn-outline">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z" />
-            <polyline points="13,2 13,9 20,9" />
-          </svg>
-          View My Work
-        </a>
-        <a href="#contact" class="btn-outline">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-            <polyline points="22,6 12,12 2,6" />
-          </svg>
-          Get in Touch
-        </a>
-      </div>
-    </div>
+<header class="wrap" id="top">
+  <div class="bar">
+    <h1 class="brand"><a href="#top">Muhammad Zubair</a></h1>
+    <nav class="site-nav" aria-label="Main">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+      <a class="nav-cta" href="https://calendly.com/zubair-r-sortup/30min" target="_blank" rel="noopener">Book a call</a>
+    </nav>
   </div>
+</header>
 
-  <!-- ═══ STATS ═══ -->
-  <div class="stats">
-    <div class="stats-grid reveal">
-      <div class="stat">
-        <div class="stat-n">30<span>+</span></div>
-        <div class="stat-l">AI systems shipped</div>
-      </div>
-      <div class="stat">
-        <div class="stat-n">10<span>+</span></div>
-        <div class="stat-l">industries served</div>
-      </div>
-      <div class="stat">
-        <div class="stat-n">5<span>+</span></div>
-        <div class="stat-l">years building</div>
-      </div>
-      <div class="stat">
-        <div class="stat-n">0<span>→</span><span style="color: #fff;">1</span></div>
-        <div class="stat-l">products launched</div>
+<main>
+  <section class="wrap hero" aria-label="Introduction">
+    <p class="lede">I build AI systems that run in production. A few of them: <span class="claim">an obituary writer for the funeral industry</span><sup class="cites"><a href="#ref-1" data-source="MomentsWriter, momentswriter.ai" aria-label="Project 1: MomentsWriter">1</a></sup>, <span class="claim">a self-healing network agent</span><sup class="cites"><a href="#ref-2" data-source="Nanites, nanites.ai" aria-label="Project 2: Nanites">2</a></sup>, <span class="claim">a fine-tuned model that turns construction PDFs into ERP-ready JSON</span><sup class="cites"><a href="#ref-3" data-source="Estimate AI, squidpdfai.com" aria-label="Project 3: Estimate AI">3</a></sup>, and <span class="claim">a voice-enabled clinical agent on Google Play</span><sup class="cites"><a href="#ref-4" data-source="Dr. C, on Google Play" aria-label="Project 4: Dr. C">4</a></sup>.</p>
+
+    <div class="grid">
+      <div class="g-main hero-meta">
+        <p>Lead GenAI Engineer at SortUp, working on agents, RAG pipelines, MCP tooling and document intelligence. I can build your system end to end, work with your team on the architecture, or help you think through a hard problem.</p>
+        <div class="actions">
+          <a class="button" href="https://calendly.com/zubair-r-sortup/30min" target="_blank" rel="noopener">Book a free 30-minute call</a>
+          <span class="or">or email <a class="link" href="mailto:zubair.r.sortup@gmail.com">zubair.r.sortup@gmail.com</a></span>
+        </div>
       </div>
     </div>
+  </section>
+
+  <section class="wrap section" id="work" aria-labelledby="work-h">
+    <div class="grid">
+      <div class="g-side sticky">
+        <h2 id="work-h">Selected work</h2>
+        <p class="note"><span data-count>12</span> of the 20+ AI systems I’ve shipped across 10+ industries. All of them are production systems with real clients and real traffic.</p>
+      </div>
+
+      <ol class="g-main refs" role="list">
+        <li class="ref" id="ref-1">
+          <span class="ref-n">1</span>
+          <h3 class="ref-title"><a href="https://www.momentswriter.ai/" target="_blank" rel="noopener">MomentsWriter</a></h3>
+          <p class="ref-meta">Funeral industry, live at momentswriter.ai</p>
+          <p class="ref-desc">Guides families through structured story collection and generates polished obituaries, with tone adjustment, fact checks and revision flows.</p>
+          <p class="ref-stack">LangGraph, LangSmith, multi-model, FastAPI</p>
+        </li>
+
+        <li class="ref" id="ref-2">
+          <span class="ref-n">2</span>
+          <h3 class="ref-title"><a href="https://www.nanites.ai/" target="_blank" rel="noopener">Nanites</a></h3>
+          <p class="ref-meta">Network operations, live at nanites.ai</p>
+          <p class="ref-desc">Autonomous, self-healing agent that detects and resolves network faults without human intervention, monitored through Grafana.</p>
+          <p class="ref-stack">LangGraph, ReAct agent, LangSmith, Grafana</p>
+        </li>
+
+        <li class="ref" id="ref-3">
+          <span class="ref-n">3</span>
+          <h3 class="ref-title"><a href="https://squidpdfai.com/" target="_blank" rel="noopener">Estimate AI</a></h3>
+          <p class="ref-meta">Construction, live at squidpdfai.com</p>
+          <p class="ref-desc">Fine-tuned GPT-4o-mini that turns unstructured construction estimate PDFs into ERP-ready JSON, with a weekly retraining pipeline that adapts automatically.</p>
+          <p class="ref-stack">Fine-tuning, PDF parsing, Django, retraining</p>
+        </li>
+
+        <li class="ref" id="ref-4">
+          <span class="ref-n">4</span>
+          <h3 class="ref-title"><a href="https://play.google.com/store/apps/details?id=project.bitlogix.nexuspro&amp;hl=en" target="_blank" rel="noopener">Dr. C</a></h3>
+          <p class="ref-meta">Healthcare, on Google Play</p>
+          <p class="ref-desc">Conversational clinical agent that analyzes lab reports, performs differential diagnosis and recommends follow-up tests, with voice through VAPI.</p>
+          <p class="ref-stack">MCP, PydanticAI, VAPI, GLM</p>
+        </li>
+
+        <li class="ref" id="ref-5">
+          <span class="ref-n">5</span>
+          <h3 class="ref-title"><a href="https://play.google.com/store/apps/details?id=com.myvisitcompanion&amp;hl=en_SG" target="_blank" rel="noopener">Doctor Notes</a></h3>
+          <p class="ref-meta">Healthcare, on Google Play</p>
+          <p class="ref-desc">Transcribes medical consultations into two structured reports: a clinical note for the doctor and a plain-language summary for the patient, with specialty-specific prompt tracks.</p>
+          <p class="ref-stack">AssemblyAI, PromptLayer, LangChain, Django</p>
+        </li>
+
+        <li class="ref" id="ref-6">
+          <span class="ref-n">6</span>
+          <h3 class="ref-title"><span>Good Boi</span></h3>
+          <p class="ref-meta">Pet care, private project</p>
+          <p class="ref-desc">Automated appointment system for pet stores that connects GHL and MoeGo through MCP, handling scheduling, confirmations and follow-ups end to end with zero human touch.</p>
+          <p class="ref-stack">Claude, MCP, PydanticAI, GHL</p>
+        </li>
+
+        <li class="ref" id="ref-7">
+          <span class="ref-n">7</span>
+          <h3 class="ref-title"><a href="https://ojiyo.ai/" target="_blank" rel="noopener">Ojiyo</a></h3>
+          <p class="ref-meta">Recommendations, live at ojiyo.ai</p>
+          <p class="ref-desc">Personalized recommendation system built on pgvector and Qwen. MMR (maximal marginal relevance) search keeps suggestions diverse instead of repetitive.</p>
+          <p class="ref-stack">pgvector, Qwen, MMR search, RAG</p>
+        </li>
+
+        <li class="ref" id="ref-8">
+          <span class="ref-n">8</span>
+          <h3 class="ref-title"><span>Narratize</span></h3>
+          <p class="ref-meta">Product innovation, private project</p>
+          <p class="ref-desc">Content intelligence platform that ingests documents, extracts insights and generates structured content in multiple formats, with multi-model routing.</p>
+          <p class="ref-stack">OpenAI, Anthropic, Mistral, Django, evals</p>
+        </li>
+
+        <li class="ref" id="ref-9">
+          <span class="ref-n">9</span>
+          <h3 class="ref-title"><a href="https://askmuslim.ai/" target="_blank" rel="noopener">AskMuslim.ai</a></h3>
+          <p class="ref-meta">Islamic advisory, live at askmuslim.ai</p>
+          <p class="ref-desc">Authenticated advisory chatbot with RAG over curated religious texts. It gives source-grounded answers to spiritual and legal questions, with full citation traceability.</p>
+          <p class="ref-stack">RAG, Pinecone, OpenAI, Chainlit, LiteralAI</p>
+        </li>
+
+        <li class="ref" id="ref-10">
+          <span class="ref-n">10</span>
+          <h3 class="ref-title"><a href="https://booosted.com/" target="_blank" rel="noopener">Booosted</a></h3>
+          <p class="ref-meta">Chatbot platform, live at booosted.com</p>
+          <p class="ref-desc">Upload PDFs or point it at any URL and get a context-aware assistant you can embed on your own website.</p>
+          <p class="ref-stack">RAG, LangChain, pgvector, LangSmith</p>
+        </li>
+
+        <li class="ref" id="ref-11">
+          <span class="ref-n">11</span>
+          <h3 class="ref-title"><a href="https://zendash.com/" target="_blank" rel="noopener">ZenDash</a></h3>
+          <p class="ref-meta">Business analytics, live at zendash.com</p>
+          <p class="ref-desc">AI-native analytics platform that puts business metrics in one dashboard, so non-technical teams can query their own data in plain language without writing SQL.</p>
+          <p class="ref-stack">LangChain, OpenAI, data analytics</p>
+        </li>
+
+        <li class="ref" id="ref-12">
+          <span class="ref-n">12</span>
+          <h3 class="ref-title"><a href="https://recruitment-app-by-sortup.streamlit.app/" target="_blank" rel="noopener">Recruitment App</a></h3>
+          <p class="ref-meta">Recruiting, live demo on Streamlit</p>
+          <p class="ref-desc">Resume screener that takes a job description and a batch of CVs, then scores and ranks candidates automatically, cutting initial screening from hours to seconds.</p>
+          <p class="ref-stack">Gemini, LangChain, Supabase, Streamlit</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="wrap section" id="about" aria-labelledby="about-h">
+    <div class="grid">
+      <div class="g-side">
+        <h2 id="about-h">About</h2>
+        <figure class="portrait">
+          <img src="zubair.jpg" width="800" height="1000" alt="Muhammad Zubair" decoding="async" fetchpriority="low" onload="this.parentNode.classList.add('has-photo')" onerror="this.parentNode.remove()">
+        </figure>
+      </div>
+      <div class="g-main prose">
+        <p>I’ve been building software for 8+ years, and for the last 3+ I’ve focused on GenAI in production. Most of that work happens after the demo: the orchestration, evals and plumbing that keep a system running once real clients depend on it.</p>
+        <p>My core areas are multi-agent systems, RAG architecture and document intelligence. I’ve <span class="claim">fine-tuned models for construction ERP extraction</span><sup class="cites"><a href="#ref-3" data-source="Estimate AI, squidpdfai.com" aria-label="Project 3: Estimate AI">3</a></sup>, <span class="claim">shipped voice agents for medical transcription</span><sup class="cites"><a href="#ref-4" data-source="Dr. C, on Google Play" aria-label="Project 4: Dr. C">4</a><a href="#ref-5" data-source="Doctor Notes, on Google Play" aria-label="Project 5: Doctor Notes">5</a></sup>, and <span class="claim">built MCP-based automation for live booking systems</span><sup class="cites"><a href="#ref-6" data-source="Good Boi, private project" aria-label="Project 6: Good Boi">6</a></sup>.</p>
+        <p>I can take a product from a whiteboard idea to a deployed system. If you need a technical co-thinker for early scoping, or a senior engineer to own delivery end to end, I do both.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="stack" aria-labelledby="stack-h">
+    <div class="grid">
+      <div class="g-side">
+        <h2 id="stack-h">Stack</h2>
+      </div>
+      <dl class="g-main stack">
+        <div>
+          <dt>Orchestration and agents</dt>
+          <dd>LangGraph, LangChain, PydanticAI, ReAct, MCP servers</dd>
+        </div>
+        <div>
+          <dt>Models and evals</dt>
+          <dd>OpenAI, Claude, Gemini, DeepSeek, Kimi, GLM, LangSmith, fine-tuning</dd>
+        </div>
+        <div>
+          <dt>Vector and backend</dt>
+          <dd>FastAPI, Django, pgvector, Pinecone, ChromaDB, Supabase, Docker</dd>
+        </div>
+        <div>
+          <dt>Voice and integrations</dt>
+          <dd>VAPI, RetellAI, AssemblyAI, WATI, GHL, Streamlit, Vercel</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="wrap section" id="contact" aria-labelledby="contact-h">
+    <div class="grid">
+      <div class="g-side">
+        <h2 id="contact-h">Contact</h2>
+      </div>
+      <div class="g-main">
+        <p class="contact-lede">If you’re scoping an AI product, or you have one that isn’t holding up in production, I’d like to hear about it.</p>
+        <div class="actions">
+          <a class="button" href="https://calendly.com/zubair-r-sortup/30min" target="_blank" rel="noopener">Book a free 30-minute call</a>
+          <span class="email">
+            <a class="link" href="mailto:zubair.r.sortup@gmail.com">zubair.r.sortup@gmail.com</a>
+            <button type="button" class="copy" data-copy="zubair.r.sortup@gmail.com" aria-live="polite">Copy</button>
+          </span>
+        </div>
+        <ul class="elsewhere" role="list">
+          <li><a class="link" href="https://www.linkedin.com/in/muhammad-zubairr/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a class="link" href="https://github.com/z4forzubair" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a class="link" href="https://x.com/ZubairThinksAI" target="_blank" rel="noopener">X (Twitter)</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap site-footer">
+  <div class="foot grid">
+    <p class="g-side">© <span data-year>2026</span> Muhammad Zubair</p>
+    <p class="g-main"><a class="link" href="#top">Back to top</a></p>
   </div>
+</footer>
 
-  <!-- ═══ ABOUT ═══ -->
-  <section id="about" class="section alt">
-    <div class="wrap">
-      <p class="s-label">Background</p>
-      <h2 class="s-title">I make GenAI work in production.</h2>
-      <div class="rule"></div>
-      <div class="about-grid reveal">
-        <div class="about-bio">
-          <p>Most AI projects are demos. I build the ones that keep running after the client calls end, with proper
-            orchestration, evals, and the plumbing to hold it all together in the real world.</p>
-          <p>My core work lives at the intersection of <strong>multi-agent systems</strong>, <strong>RAG
-              architecture</strong>, and <strong>document intelligence</strong>. I've fine-tuned models for construction
-            ERP extraction, shipped voice agents for medical transcription, and built MCP-based automation for live
-            booking systems.</p>
-          <p>I can take your product from a whiteboard idea to a deployed, production-ready system quickly. Whether you
-            need a <strong>technical co-thinker</strong> for early-stage scoping or a <strong>senior engineer</strong>
-            to own delivery end-to-end, I'm available for both.</p>
-          <div class="badge">
-            <span class="badge-dot"></span>
-            Lead Generative AI Engineer · SortUp
-          </div>
-        </div>
-        <div class="stack-section">
-          <div class="stack-group">
-            <div class="stack-group-label">Orchestration &amp; Agents</div>
-            <div class="tags">
-              <span class="tag c">LangGraph</span>
-              <span class="tag c">LangChain</span>
-              <span class="tag c">PydanticAI</span>
-              <span class="tag c">ReAct</span>
-              <span class="tag c">MCP Servers</span>
-            </div>
-          </div>
-          <div class="stack-group">
-            <div class="stack-group-label">Models &amp; Evals</div>
-            <div class="tags">
-              <span class="tag v">OpenAI</span>
-              <span class="tag v">Claude</span>
-              <span class="tag v">Gemini</span>
-              <span class="tag v">DeepSeek</span>
-              <span class="tag v">Kimi</span>
-              <span class="tag v">GLM</span>
-              <span class="tag v">LangSmith</span>
-              <span class="tag v">Fine-tuning</span>
-            </div>
-          </div>
-          <div class="stack-group">
-            <div class="stack-group-label">Vector &amp; Backend</div>
-            <div class="tags">
-              <span class="tag">FastAPI</span>
-              <span class="tag">Django</span>
-              <span class="tag">pgvector</span>
-              <span class="tag">Pinecone</span>
-              <span class="tag">ChromaDB</span>
-              <span class="tag">Supabase</span>
-              <span class="tag">Docker</span>
-            </div>
-          </div>
-          <div class="stack-group">
-            <div class="stack-group-label">Voice &amp; Integrations</div>
-            <div class="tags">
-              <span class="tag">VAPI</span>
-              <span class="tag">RetellAI</span>
-              <span class="tag">AssemblyAI</span>
-              <span class="tag">WATI</span>
-              <span class="tag">GHL</span>
-              <span class="tag">Streamlit</span>
-              <span class="tag">Vercel</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<script>
+  (function () {
+    var year = document.querySelector('[data-year]');
+    if (year) year.textContent = new Date().getFullYear();
 
-  <!-- ═══ PROJECTS ═══ -->
-  <section id="projects" class="section">
-    <div class="wrap">
-      <p class="s-label">Selected Work</p>
-      <h2 class="s-title">Things I've built and shipped.</h2>
-      <p class="s-sub">All production systems: real clients, real traffic, real edge cases.</p>
-      <div class="rule"></div>
+    var count = document.querySelector('[data-count]');
+    if (count) count.textContent = document.querySelectorAll('.ref').length;
 
-      <div class="project-filters reveal">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="agents">Agents & MCP</button>
-        <button class="filter-btn" data-filter="rag">RAG & Search</button>
-        <button class="filter-btn" data-filter="extraction">Data & Extraction</button>
-      </div>
-      <div class="projects-grid">
-
-
-        <div class="card reveal" data-category="agents">
-          <div class="card-top">
-            <div class="card-icon">🕊️</div>
-            <a class="card-live" href="https://www.momentswriter.ai/" target="_blank" rel="noopener">Live ↗</a>
-          </div>
-          <div class="card-name">MomentsWriter</div>
-          <p class="card-desc">Multi-model AI for the funeral industry. Guides families through structured story
-            collection and generates polished obituaries with tone adjustment, fact checks, and revision flows.</p>
-          <div class="card-tags">
-            <span class="card-tag">LangGraph</span><span class="card-tag">LangSmith</span><span
-              class="card-tag">Multi-model</span><span class="card-tag">FastAPI</span>
-          </div>
-        </div>
-
-        <div class="card reveal" data-category="rag">
-          <div class="card-top">
-            <div class="card-icon">✨</div>
-            <a class="card-live" href="https://ojiyo.ai/" target="_blank" rel="noopener">Live ↗</a>
-          </div>
-          <div class="card-name">Ojiyo: AI Recommendations</div>
-          <p class="card-desc">Personalized AI recommendation system built on pgvector and Qwen. Uses MMR (Maximal
-            Marginal Relevance) search for diversity-aware suggestions that avoid repetitive results.</p>
-          <div class="card-tags">
-            <span class="card-tag">pgvector</span><span class="card-tag">Qwen</span><span class="card-tag">MMR
-              search</span><span class="card-tag">RAG</span>
-          </div>
-        </div>
-
-        <div class="card reveal" data-category="extraction">
-          <div class="card-top">
-            <div class="card-icon">🏗️</div>
-            <a class="card-live" href="https://squidpdfai.com/" target="_blank" rel="noopener">Live ↗</a>
-          </div>
-          <div class="card-name">Estimate AI</div>
-          <p class="card-desc">Fine-tuned GPT-4o-mini for construction PDF extraction. Ingests unstructured estimate
-            documents and outputs ERP-ready structured JSON, with a weekly retraining pipeline that adapts
-            automatically.</p>
-          <div class="card-tags">
-            <span class="card-tag">Fine-tuning</span><span class="card-tag">PDF parsing</span><span
-              class="card-tag">Django</span><span class="card-tag">Retraining</span>
-          </div>
-        </div>
-
-        <div class="card reveal" data-category="agents">
-          <div class="card-top">
-            <div class="card-icon">🤖</div>
-            <a class="card-live" href="https://www.nanites.ai/" target="_blank" rel="noopener">Live ↗</a>
-          </div>
-          <div class="card-name">Nanites</div>
-          <p class="card-desc">Autonomous self-healing AI agent for network troubleshooting. Detects and resolves faults
-            without human intervention, built on LangGraph + ReAct, monitored via Grafana.</p>
-          <div class="card-tags">
-            <span class="card-tag">ReAct agent</span><span class="card-tag">LangGraph</span><span
-              class="card-tag">Grafana</span><span class="card-tag">LangSmith</span>
-          </div>
-        </div>
-
-        <div class="card reveal" data-category="agents rag">
-          <div class="card-top">
-            <div class="card-icon">✍️</div>
-            <a class="card-live dead" href="#">Private</a>
-          </div>
-          <div class="card-name">Narratize</div>
-          <p class="card-desc">AI-powered content intelligence platform for product innovation. Ingests documents,
-            extracts insights, and generates structured content across multiple formats using multi-model routing.</p>
-          <div class="card-tags">
-            <span class="card-tag">OpenAI</span><span class="card-tag">Anthropic</span><span
-              class="card-tag">Mistral</span><span class="card-tag">Django</span><span class="card-tag">Evals</span>
-          </div>
-        </div>
-
-        <div class="card reveal" data-category="rag">
-          <div class="card-top">
-            <div class="card-icon">☪️</div>
-            <a class="card-live" href="https://askmuslim.ai/" target="_blank" rel="noopener">Live ↗</a>
-          </div>
-          <div class="card-name">AskMuslim.ai</div>
-          <p class="card-desc">Authenticated Islamic advisory chatbot with RAG over curated religious texts. Provides
-            reliable, source-grounded answers to spiritual and legal queries with full citation traceability.</p>
-          <div class="card-tags">
-            <span class="card-tag">RAG</span><span class="card-tag">Pinecone</span><span
-              class="card-tag">OpenAI</span><span class="card-tag">Chainlit</span><span
-              class="card-tag">LiteralAI</span>
-          </div>
-        </div>
-
-        <div class="card reveal" data-category="rag extraction">
-          <div class="card-top">
-            <div class="card-icon">💬</div>
-            <a class="card-live" href="https://booosted.com/" target="_blank" rel="noopener">Live ↗</a>
-          </div>
-          <div class="card-name">Booosted</div>
-          <p class="card-desc">RAG-powered chatbot platform. Users upload PDFs or point to any URL and instantly get a
-            context-aware assistant they can embed on their own website.</p>
-          <div class="card-tags">
-            <span class="card-tag">RAG</span><span class="card-tag">LangChain</span><span
-              class="card-tag">pgvector</span><span class="card-tag">LangSmith</span>
-          </div>
-        </div>
-
-        <div class="card reveal" data-category="agents">
-          <div class="card-top">
-            <div class="card-icon">🩺</div>
-            <a class="card-live" href="https://play.google.com/store/apps/details?id=project.bitlogix.nexuspro&hl=en"
-              target="_blank" rel="noopener">Play Store ↗</a>
-          </div>
-          <div class="card-name">Dr. C: Medical AI</div>
-          <p class="card-desc">Conversational clinical agent that analyzes lab reports, performs differential diagnosis,
-            and recommends follow-up tests. Voice-enabled via VAPI, powered by MCP + PydanticAI.</p>
-          <div class="card-tags">
-            <span class="card-tag">MCP</span><span class="card-tag">PydanticAI</span><span
-              class="card-tag">VAPI</span><span class="card-tag">GLM</span>
-          </div>
-        </div>
-
-        <div class="card reveal" data-category="extraction">
-          <div class="card-top">
-            <div class="card-icon">🎙️</div>
-            <a class="card-live" href="https://play.google.com/store/apps/details?id=com.myvisitcompanion&hl=en_SG"
-              target="_blank" rel="noopener">Play Store ↗</a>
-          </div>
-          <div class="card-name">Doctor Notes</div>
-          <p class="card-desc">AI pipeline that transcribes medical consultations and outputs dual structured reports (a
-            clinical note for doctors and a plain-language summary for patients) with specialty-specific prompt tracks.
-          </p>
-          <div class="card-tags">
-            <span class="card-tag">AssemblyAI</span><span class="card-tag">PromptLayer</span><span
-              class="card-tag">LangChain</span><span class="card-tag">Django</span>
-          </div>
-        </div>
-
-        <div class="card reveal" data-category="rag">
-          <div class="card-top">
-            <div class="card-icon">📊</div>
-            <a class="card-live" href="https://zendash.com/" target="_blank" rel="noopener">Live ↗</a>
-          </div>
-          <div class="card-name">ZenDash</div>
-          <p class="card-desc">AI-native analytics platform. Centralizes business metrics into a single dashboard with
-            natural language querying. Non-technical teams interrogate their own data without writing SQL.</p>
-          <div class="card-tags">
-            <span class="card-tag">LangChain</span><span class="card-tag">OpenAI</span><span class="card-tag">Data
-              analytics</span>
-          </div>
-        </div>
-
-        <div class="card reveal" data-category="agents">
-          <div class="card-top">
-            <div class="card-icon">🐾</div>
-            <a class="card-live dead">Private</a>
-          </div>
-          <div class="card-name">Good Boi: Booking Agent</div>
-          <p class="card-desc">Fully automated appointment system for pet stores, connecting GHL and MoeGo via MCP.
-            Handles scheduling, confirmations, and follow-ups end-to-end with zero human touch.</p>
-          <div class="card-tags">
-            <span class="card-tag">Claude</span><span class="card-tag">MCP</span><span
-              class="card-tag">PydanticAI</span><span class="card-tag">GHL</span>
-          </div>
-        </div>
-
-        <div class="card reveal" data-category="agents rag">
-          <div class="card-top">
-            <div class="card-icon">📋</div>
-            <a class="card-live" href="https://recruitment-app-by-sortup.streamlit.app/" target="_blank"
-              rel="noopener">Live ↗</a>
-          </div>
-          <div class="card-name">Recruitment App</div>
-          <p class="card-desc">AI resume screener that ingests a job description and batch of CVs, then scores and ranks
-            candidates automatically, cutting initial screening from hours to seconds.</p>
-          <div class="card-tags">
-            <span class="card-tag">Gemini</span><span class="card-tag">LangChain</span><span
-              class="card-tag">Supabase</span><span class="card-tag">Streamlit</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ CONTACT ═══ -->
-  <section id="contact" class="section alt">
-    <div class="wrap">
-      <div class="cta-box reveal">
-        <h2>Let's build something real.</h2>
-        <p>
-          Ready to develop your product, collaborate on architecture, or just help you think through a hard problem. If
-          you have a GenAI challenge worth solving, I\'m one call away.
-        </p>
-        <div class="cta-links">
-          <a class="btn-book" href="https://calendly.com/zubair-r-sortup/30min" target="_blank" rel="noopener">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-              <rect x="3" y="4" width="18" height="18" rx="2" />
-              <path d="M16 2v4M8 2v4M3 10h18" />
-            </svg>
-            Book a Free Call
-          </a>
-          <a class="cta-link" href="mailto:zubair.r.sortup@gmail.com">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-              <polyline points="22,6 12,12 2,6" />
-            </svg>
-            Email
-          </a>
-          <a class="cta-link" href="https://www.linkedin.com/in/muhammad-zubairr/" target="_blank" rel="noopener">
-            <svg fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-            </svg>
-            LinkedIn
-          </a>
-          <a class="cta-link" href="https://github.com/z4forzubair" target="_blank" rel="noopener">
-            <svg fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M12 .297C5.373.297 0 5.67 0 12.297c0 5.303 3.438 9.8 8.205 11.387.6.111.82-.261.82-.577 0-.285-.011-1.232-.017-2.235-3.338.725-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.085 1.839 1.238 1.839 1.238 1.071 1.835 2.809 1.305 3.495.998.108-.776.419-1.305.762-1.605-2.665-.303-5.466-1.333-5.466-5.931 0-1.311.469-2.382 1.236-3.222-.124-.303-.536-1.523.117-3.176 0 0 1.008-.322 3.301 1.231A11.51 11.51 0 0112 6.101c1.019.005 2.046.138 3.005.404 2.291-1.553 3.297-1.231 3.297-1.231.655 1.653.243 2.873.119 3.176.77.84 1.235 1.911 1.235 3.222 0 4.609-2.806 5.624-5.479 5.921.431.372.815 1.103.815 2.224 0 1.606-.014 2.898-.014 3.291 0 .319.216.694.825.576C20.565 22.093 24 17.598 24 12.297c0-6.627-5.373-12-12-12z" />
-            </svg>
-            GitHub
-          </a>
-          <a class="cta-link" href="https://x.com/ZubairThinksAI" target="_blank" rel="noopener">
-            <svg fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-            </svg>
-            X / Twitter
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    Muhammad Zubair · Lead GenAI Engineer · SortUp
-  </footer>
-
-  <script>
-    const phrases = [
-      "production AI agents.",
-      "RAG pipelines that scale.",
-      "LangGraph workflows.",
-      "MCP-powered tooling.",
-      "products from 0 to 1.",
-      "document intelligence."
-    ];
-    let pi = 0, ci = 0, del = false;
-    const el = document.getElementById("tw");
-    function tick() {
-      const w = phrases[pi];
-      if (!del) {
-        el.textContent = w.slice(0, ++ci);
-        if (ci === w.length) { del = true; setTimeout(tick, 1900); return; }
-      } else {
-        el.textContent = w.slice(0, --ci);
-        if (ci === 0) { del = false; pi = (pi + 1) % phrases.length; }
-      }
-      setTimeout(tick, del ? 42 : 65);
-    }
-    tick();
-
-    // --- MOUSE GLOW EFFECT ---
-    document.querySelectorAll('.card, .stat, .cta-box').forEach(el => {
-      el.addEventListener('mousemove', e => {
-        const rect = el.getBoundingClientRect();
-        el.style.setProperty('--x', (e.clientX - rect.left) + 'px');
-        el.style.setProperty('--y', (e.clientY - rect.top) + 'px');
+    // Copy the email address, with a fallback for browsers without the Clipboard API
+    document.querySelectorAll('.copy').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var text = btn.getAttribute('data-copy');
+        var show = function (label) {
+          btn.textContent = label;
+          clearTimeout(btn._reset);
+          btn._reset = setTimeout(function () { btn.textContent = 'Copy'; }, 2000);
+        };
+        var fallback = function () {
+          var field = document.createElement('textarea');
+          field.value = text;
+          field.setAttribute('readonly', '');
+          field.style.position = 'fixed';
+          field.style.opacity = '0';
+          document.body.appendChild(field);
+          field.select();
+          var ok = false;
+          try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+          document.body.removeChild(field);
+          show(ok ? 'Copied' : 'Select and copy');
+        };
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(text).then(function () { show('Copied'); }, fallback);
+        } else {
+          fallback();
+        }
       });
     });
 
-    // --- STATS COUNTER ANIMATION ---
-    const statNumbers = document.querySelectorAll('.stat-n');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          // prevent re-triggering
-          if (el.dataset.animated) return;
-          el.dataset.animated = "true";
-
-          const text = el.innerText;
-          const targetMatch = text.match(/\d+/);
-          if (!targetMatch) return;
-          const target = parseInt(targetMatch[0]);
-          if (target === 0) return;
-          const suffix = text.replace(targetMatch[0], '');
-          let count = 0;
-          const duration = 1500;
-          const stepTime = Math.max(Math.floor(duration / target), 20);
-
-          const timer = setInterval(() => {
-            count += Math.ceil(target / (duration / stepTime));
-            if (count >= target) {
-              count = target;
-              clearInterval(timer);
-            }
-            el.innerHTML = count + '<span>' + suffix + '</span>';
-          }, stepTime);
+    // Open each citation preview just under the line it sits on, and keep it inside the window
+    document.querySelectorAll('.cites a').forEach(function (mark) {
+      var place = function () {
+        var box = mark.getBoundingClientRect();
+        var claim = mark.parentNode.previousElementSibling;
+        var lines = claim ? claim.getClientRects() : [];
+        if (lines.length) {
+          var drop = lines[lines.length - 1].bottom - box.bottom;
+          mark.style.setProperty('--tip-drop', Math.max(0, drop) + 'px');
         }
-      });
-    }, { threshold: 0.5 });
-    statNumbers.forEach(stat => observer.observe(stat));
-
-
-    // --- SMOOTH SCROLL REVEALS ---
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target); // only reveal once
-        }
-      });
-    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-    // --- PROJECT FILTERS ---
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.projects-grid .card');
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.getAttribute('data-filter');
-
-        cards.forEach(card => {
-          card.style.transition = 'none'; // reset transition for layout calculate
-          if (filter === 'all' || card.getAttribute('data-category').includes(filter)) {
-            card.classList.remove('hidden');
-            setTimeout(() => card.style.transition = '', 10);
-          } else {
-            card.classList.add('hidden');
-          }
-        });
-      });
+        mark.classList.toggle('tip-start', box.left < 160);
+        mark.classList.toggle('tip-end', window.innerWidth - box.right < 160);
+      };
+      mark.addEventListener('mouseenter', place);
+      mark.addEventListener('focus', place);
     });
-
-    // --- EMAIL COPY TOAST ---
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerText = 'Copied to clipboard! 📋';
-    document.body.appendChild(toast);
-
-    const emailLinks = document.querySelectorAll('a[href^="mailto:"]');
-    emailLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const email = link.getAttribute('href').replace('mailto:', '');
-        navigator.clipboard.writeText(email).then(() => {
-          toast.classList.add('show');
-          setTimeout(() => toast.classList.remove('show'), 2500);
-        });
-      });
-    });
-
-    // --- NEURAL CANVAS IN HERO ---
-    const canvas = document.getElementById('hero-canvas');
-    if (canvas) {
-      const ctx = canvas.getContext('2d');
-      let width, height, particles;
-
-      function initCanvas() {
-        width = canvas.width = canvas.parentElement.offsetWidth;
-        height = canvas.height = canvas.parentElement.offsetHeight;
-        particles = [];
-        const numParticles = Math.min(Math.floor(window.innerWidth / 15), 80);
-        for (let i = 0; i < numParticles; i++) {
-          particles.push({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            vx: (Math.random() - 0.5) * 0.5,
-            vy: (Math.random() - 0.5) * 0.5,
-            radius: Math.random() * 1.5 + 0.5
-          });
-        }
-      }
-
-      let mouse = { x: null, y: null, radius: 150 };
-      window.addEventListener('mousemove', e => {
-        const rect = canvas.getBoundingClientRect();
-        mouse.x = e.clientX - rect.left;
-        mouse.y = e.clientY - rect.top;
-      });
-      window.addEventListener('mouseleave', () => {
-        mouse.x = null;
-        mouse.y = null;
-      });
-      window.addEventListener('resize', initCanvas);
-
-      function animate() {
-        ctx.clearRect(0, 0, width, height);
-        for (let i = 0; i < particles.length; i++) {
-          let p = particles[i];
-          p.x += p.vx;
-          p.y += p.vy;
-
-          if (p.x < 0 || p.x > width) p.vx *= -1;
-          if (p.y < 0 || p.y > height) p.vy *= -1;
-
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(0, 198, 240, 0.4)';
-          ctx.fill();
-
-          for (let j = i + 1; j < particles.length; j++) {
-            let p2 = particles[j];
-            let dx = p.x - p2.x;
-            let dy = p.y - p2.y;
-            let dist = Math.sqrt(dx * dx + dy * dy);
-
-            if (dist < 100) {
-              ctx.beginPath();
-              ctx.strokeStyle = `rgba(0, 198, 240, ${0.15 - dist / 100 * 0.15})`;
-              ctx.lineWidth = 0.5;
-              ctx.moveTo(p.x, p.y);
-              ctx.lineTo(p2.x, p2.y);
-              ctx.stroke();
-            }
-          }
-
-          if (mouse.x != null) {
-            let dx = p.x - mouse.x;
-            let dy = p.y - mouse.y;
-            let dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < mouse.radius) {
-              ctx.beginPath();
-              ctx.strokeStyle = `rgba(139, 111, 245, ${0.2 - dist / mouse.radius * 0.2})`;
-              ctx.lineWidth = 0.8;
-              ctx.moveTo(p.x, p.y);
-              ctx.lineTo(mouse.x, mouse.y);
-              ctx.stroke();
-            }
-          }
-        }
-        requestAnimationFrame(animate);
-      }
-
-      initCanvas();
-      animate();
-    }
-
-  </script>
+  })();
+</script>
 </body>
-
 </html>
